@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
 import { CountryService } from '../api/service/Country'
 
-export default function Home(props) {
+export default function Home() {
   const { isLoading, data } = useQuery('countri list', () =>
     CountryService.getAll()
   )
