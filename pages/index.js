@@ -1,8 +1,18 @@
-// export async function getStaticProps() {
-//   const posts = await getPosts('http://localhost:3000/api/hello')
-//   return { props: { posts } }
-// }
+import { useQuery } from 'react-query'
+import { CountryService } from '../api/service/Country'
 
 export default function Home(props) {
-  return <div>todo</div>
+  const { isLoading, data } = useQuery('countri list', () =>
+    CountryService.getAll()
+  )
+  console.log(data)
+  return (
+    <div>
+      todo
+      {/* {data.map((el) => ( */}
+      {/* <div key={el.id}>{el.title}</div> */}
+      {/* ))} */}
+      {isLoading ? <div>yes</div> : <div>no</div>}
+    </div>
+  )
 }
