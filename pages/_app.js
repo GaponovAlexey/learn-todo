@@ -3,6 +3,7 @@ import React from 'react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 
 export default function MyApp({ Component, pageProps }) {
+  
   const [queryClient] = React.useState(
     () =>
       new QueryClient({

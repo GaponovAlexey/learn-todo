@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'https://jsonplaceholder.typicode.com'
+export const API_URL = 'https://jsonplaceholder.typicode.com/todos'
 
 axios.defaults.baseURL = API_URL
 
@@ -13,5 +13,5 @@ axios.defaults.baseURL = API_URL
 export const CountryService = {
   async getAll() {
     return axios.get('/todos')
-  }
+  },
 }
