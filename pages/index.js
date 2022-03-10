@@ -1,25 +1,44 @@
-import axios from 'axios'
-import { useQuery } from 'react-query'
-
-import { API_URL, CountryService } from '../api/service/Country'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { useState } from 'react/cjs/react.development'
+import { CountryService } from '../api/service/Country'
+import { useAllActions } from '../components/hooks/AllActions'
+import Pagination from '../components/Pagination'
 
 export const getStaticProps = async () => {
-  const res = await CountryService.getAll()
-  const data = res.data
-  // if(!data) {return {notFound:true}
-  return { props: { contacts: data } }
+  const data = await CountryService.getAll()
+  return { props: { data } }
 }
 
-const Home = (props) => {
-  // const { isLoading, data } = useQuery('countri list', () =>
-  //   CountryService.getAll()
-  // )
-  console.log(props)
+const Home = ({ data }) => {
+  React.useEffect(() => {
+    getState(data)
+  }, [])
+
+  const allFile = useSelector((state) => state.card)
+  const [currentPosts, setcurrentPosts] = useState(allFile)
+
+  const { getState, removeItem } = useAllActions()
+
   return (
     <div>
-      {/* {contacts && contacts.map((el) => <div key={el.id}>{el.title}</div>)} */}
       todo
+      {currentPosts?.map((el) => (
+        <ul key={el.id}>
+          <li className='list-outside md:list-inside justify-between  flex'>
+            {el.id}-{el.title}
+            <div
+              onClick={() => removeItem({ id: el.id })}
+              className='hover:text-red-600'
+            >
+              del
+            </div>
+          </li>
+        </ul>
+      ))}
+      <Pagination data={data} setcurrentPosts={setcurrentPosts} />
     </div>
   )
 }
+
 export default Home

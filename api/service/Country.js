@@ -1,17 +1,7 @@
-import axios from 'axios'
-
-export const API_URL = 'https://jsonplaceholder.typicode.com/todos'
-
-axios.defaults.baseURL = API_URL
-
-// export const CountryService = {
-//   async getAll() {
-//     return axios.get('/todos')
-//   },
-// }
-
+export const API_URL = 'https://jsonplaceholder.typicode.com/'
 export const CountryService = {
   async getAll() {
-    return axios.get('/todos')
-  },
-}
+    const res = await fetch(API_URL + 'todos')
+    const data = res.json()
+    return data
+  },}
