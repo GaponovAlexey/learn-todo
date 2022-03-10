@@ -1,34 +1,38 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react/cjs/react.development'
-import { CountryService } from '../api/service/Country'
 import { useAllActions } from '../components/hooks/AllActions'
 import Pagination from '../components/Pagination'
+import { fetchUserById } from '../components/Redux/reducer'
 
-export const getStaticProps = async () => {
-  const data = await CountryService.getAll()
-  return { props: { data } }
-}
+const Home = () => {
+  const { RemoveItem, getState } = useAllActions()
+  const dispatch = useDispatch()
 
-const Home = ({ data }) => {
-  React.useEffect(() => {
-    getState(data)
+  useEffect(() => {
+    // getState()
+    dispatch(fetchUserById())
   }, [])
 
   const allFile = useSelector((state) => state.card)
-  const [currentPosts, setcurrentPosts] = useState(allFile)
+  console.log(allFile)
 
-  const { getState, removeItem } = useAllActions()
+  const [currentPosts, setcurrentPosts] = useState(allFile[0])
+
+  const removeItems = (id) => {
+    console.log(id)
+    RemoveItem(id)
+  }
 
   return (
     <div>
       todo
       {currentPosts?.map((el) => (
         <ul key={el.id}>
-          <li className='list-outside md:list-inside justify-between  flex'>
+          <li className='list-outside md:list-inside justify-between flex'>
             {el.id}-{el.title}
             <div
-              onClick={() => removeItem({ id: el.id })}
+              onClick={() => removeItems(el.id)}
               className='hover:text-red-600'
             >
               del
@@ -36,7 +40,7 @@ const Home = ({ data }) => {
           </li>
         </ul>
       ))}
-      <Pagination data={data} setcurrentPosts={setcurrentPosts} />
+      <Pagination data={allFile} setcurrentPosts={setcurrentPosts} />
     </div>
   )
 }

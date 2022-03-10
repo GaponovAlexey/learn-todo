@@ -8,7 +8,7 @@ const Pagination = ({ data, setcurrentPosts }) => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost)
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     setcurrentPosts(currentPosts)
   }, [currentPage])
 
