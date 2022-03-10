@@ -1,24 +1,12 @@
 import React from 'react'
 
-const Pagination = ({ data, setcurrentPosts }) => {
-  const [currentPage, setCurrentPage] = React.useState(1)
-  const [postsPerPage] = React.useState(10)
-
-  const indexOfLastPost = currentPage * postsPerPage
-  const indexOfFirstPost = indexOfLastPost - postsPerPage
-  const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost)
-
-  React.useLayoutEffect(() => {
-    setcurrentPosts(currentPosts)
-  }, [currentPage])
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber)
-
+const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
   const pageNumbers = []
 
-  for (let i = 1; i <= data.length / postsPerPage; i++) {
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i)
   }
+
   return (
     <nav>
       <ul className='pagination'>

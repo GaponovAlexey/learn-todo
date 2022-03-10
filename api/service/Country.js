@@ -4,4 +4,5 @@ export const CountryService = {
     const res = await fetch(API_URL + 'todos')
     const data = await res.json()
     return data
-  },}
+  },
+}

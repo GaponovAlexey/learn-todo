@@ -1,28 +1,23 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react/cjs/react.development'
-import { useAllActions } from '../components/hooks/AllActions'
 import Pagination from '../components/Pagination'
-import { fetchUserById } from '../components/Redux/reducer'
+import { fetchUserById, removeElement } from '../components/Redux/reducer'
 
 const Home = () => {
-  const { RemoveItem, getState } = useAllActions()
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    // getState()
+  React.useEffect(() => {
     dispatch(fetchUserById())
   }, [])
-
   const allFile = useSelector((state) => state.card)
-  console.log(allFile)
 
-  const [currentPosts, setcurrentPosts] = useState(allFile[0])
-
-  const removeItems = (id) => {
-    console.log(id)
-    RemoveItem(id)
-  }
+  const dispatch = useDispatch()
+  // pagin
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const [postsPerPage] = React.useState(15)
+  const indexOfLastPost = currentPage * postsPerPage
+  const indexOfFirstPost = indexOfLastPost - postsPerPage
+  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+  const currentPosts = allFile?.slice(indexOfFirstPost, indexOfLastPost)
+  //
 
   return (
     <div>
@@ -32,7 +27,7 @@ const Home = () => {
           <li className='list-outside md:list-inside justify-between flex'>
             {el.id}-{el.title}
             <div
-              onClick={() => removeItems(el.id)}
+              onClick={() => dispatch(removeElement(el.id))}
               className='hover:text-red-600'
             >
               del
@@ -40,7 +35,12 @@ const Home = () => {
           </li>
         </ul>
       ))}
-      <Pagination data={allFile} setcurrentPosts={setcurrentPosts} />
+      <Pagination
+        postsPerPage={postsPerPage}
+        totalPosts={allFile.length}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
     </div>
   )
 }
