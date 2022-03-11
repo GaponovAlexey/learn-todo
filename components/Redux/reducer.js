@@ -13,8 +13,22 @@ export const mySlice = createSlice({
   name: 'redux/reducer',
   initialState: [],
   reducers: {
+    isCompleted: (state, { payload }) => {
+      const index = payload
+      return state.map((todo, i) => {
+        if (i !== index) return todo
+
+        return {
+          ...todo,
+          completed: !todo.completed,
+        }
+      })
+    },
+    addData: (state, { payload }) => {
+      state.unshift(payload)
+    },
     removeElement: (state, { payload }) => {
-      return state = state.filter((el) => el.id !== payload)
+      return state.filter((el) => el.id !== payload)
     },
   },
   extraReducers: (build) => {
@@ -24,5 +38,6 @@ export const mySlice = createSlice({
   },
 })
 
-export const { removeElement } = mySlice.actions
+export const { removeElement, isCompleted } = mySlice.actions
+export const allActions = mySlice.actions
 export default mySlice.reducer
