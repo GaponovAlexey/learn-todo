@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Edit from '../components/Edit'
 import { useAllActions } from '../components/hooks/AllActions'
 import Pagination from '../components/Pagination'
 import {
@@ -14,8 +15,8 @@ const Home = () => {
     dispatch(fetchUserById())
   }, [])
   const allFile = useSelector((state) => state.card)
-  console.log(allFile)
-  const { addData } = useAllActions()
+
+  const { addData, updateValue } = useAllActions()
 
   const [TitleSend, setTitleSend] = React.useState('')
 
@@ -27,7 +28,11 @@ const Home = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
   const currentPosts = allFile?.slice(indexOfFirstPost, indexOfLastPost)
   //
-
+  const [isEdit, setIsEdit] = React.useState(false)
+  const [relativeTitle, setrelativeTitle] = React.useState('')
+  const findIdEdit = (id) => {
+    setrelativeTitle(currentPosts.find((el) => el.id === id))
+  }
   return (
     <div>
       todo
@@ -38,26 +43,50 @@ const Home = () => {
           value={TitleSend}
           onChange={(e) => setTitleSend(e.target.value)}
         />
-        <button onClick={() => addData({ id: Date.now(), title: TitleSend })}>
+        <button
+          onClick={() =>
+            addData({ id: Date.now(), title: TitleSend, completed: false })
+          }
+        >
           send
         </button>
       </div>
       {currentPosts?.map((el, i) => (
         <ul key={el.id}>
           <li
-            onClick={() => dispatch(isCompleted(i))}
             className={
               el.completed
                 ? 'red list-outside md:list-inside justify-between flex'
                 : 'blue list-outside md:list-inside justify-between flex'
             }
           >
-            {el.completed.toString()}-{el.title}
-            <div
-              onClick={() => dispatch(removeElement(el.id))}
-              className='hover:text-red-600'
-            >
-              del
+            {el.completed.toString()}-{i}-{el.title}
+            <div className='flex'>
+              <div
+                className='pr-2 cursor-pointer'
+                onClick={() => dispatch(isCompleted(i))}
+              >
+                toggle
+              </div>
+              <div className='pr-2 cursor-pointer'>
+                <div onClick={() => setIsEdit(!isEdit)}>edit</div>
+                <div onClick={() => findIdEdit(el.id)}>
+                  {isEdit && (
+                    <Edit
+                      updateValue={updateValue}
+                      title={relativeTitle.title}
+                      i={i}
+                      setIsEdit={setIsEdit}
+                    />
+                  )}
+                </div>
+              </div>
+              <div
+                onClick={() => dispatch(removeElement(el.id))}
+                className='cursor-pointer'
+              >
+                del
+              </div>
             </div>
           </li>
         </ul>

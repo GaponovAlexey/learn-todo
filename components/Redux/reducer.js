@@ -13,11 +13,16 @@ export const mySlice = createSlice({
   name: 'redux/reducer',
   initialState: [],
   reducers: {
+    updateValue(state, action) {
+      const { i, titleCorrect } = action.payload
+      console.log(titleCorrect)
+      // state[i].forEach((cus))
+      state[i] = ({...state[i], title: titleCorrect})
+    },
     isCompleted: (state, { payload }) => {
       const index = payload
       return state.map((todo, i) => {
         if (i !== index) return todo
-
         return {
           ...todo,
           completed: !todo.completed,
