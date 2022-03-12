@@ -14,10 +14,10 @@ export const mySlice = createSlice({
   initialState: [],
   reducers: {
     updateValue(state, action) {
-      const { i, titleCorrect } = action.payload
-      console.log(titleCorrect)
-      // state[i].forEach((cus))
-      state[i] = ({...state[i], title: titleCorrect})
+      const { id, title } = action.payload
+      console.log('stateTitle-', title)
+      console.log('stateid-', id)
+      state[id - 1] = { ...state[id - 1], title }
     },
     isCompleted: (state, { payload }) => {
       const index = payload

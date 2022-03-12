@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Edit from '../components/Edit'
 import { useAllActions } from '../components/hooks/AllActions'
@@ -30,13 +30,13 @@ const Home = () => {
   //
   const [isEdit, setIsEdit] = React.useState(false)
   //id correct
-  const [relativeTitle, setrelativeTitle] = React.useState({ title, id })
+  const [relativeTitle, setrelativeTitle] = React.useState({})
+  // console.log('rel:', relativeTitle)
 
-  const findIdEdit = (ids) => {
-    const correctId = currentPosts.find((el) => el.id === ids)
-    const { id, title } = correctId || []
-    setrelativeTitle({ title, id })
-  }
+  useLayoutEffect(() => {
+    setrelativeTitle({})
+  }, [isEdit])
+
   return (
     <div>
       todo
@@ -72,14 +72,20 @@ const Home = () => {
               >
                 toggle
               </div>
-              <div className='pr-2 cursor-pointer'>
+              <div
+                onClick={
+                  (() => setrelativeTitle({ title: el.title, id: el.id }),
+                  () => console.log('id:-', el.id))
+                }
+                className='pr-2 cursor-pointer'
+              >
                 <div onClick={() => setIsEdit(!isEdit)}>edit</div>
-                <div onClick={() => findIdEdit(el.id)}>
+                <div>
                   {isEdit && (
                     <Edit
                       updateValue={updateValue}
                       title={relativeTitle.title}
-                      i={relativeTitle.id}
+                      id={relativeTitle.id}
                       setIsEdit={setIsEdit}
                     />
                   )}

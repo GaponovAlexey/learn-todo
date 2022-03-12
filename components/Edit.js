@@ -1,15 +1,11 @@
 import { useState } from 'react'
 
-const Edit = ({ setIsEdit, title, updateValue, i }) => {
-  
+const Edit = ({ setIsEdit, title, updateValue, id }) => {
   const [titleCorrect, setTitleCorrect] = useState(title)
-  console.log(titleCorrect);
-  
 
   // console.log(i)
   const sendTitle = () => {
-    console.log('tit:', titleCorrect)
-    updateValue({ i, titleCorrect })
+    updateValue({ id, title: titleCorrect })
   }
   return (
     <div className='absolute top-1/3 left-1/4 p-5 bg-slate-500 '>
