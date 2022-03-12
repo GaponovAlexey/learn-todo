@@ -29,9 +29,13 @@ const Home = () => {
   const currentPosts = allFile?.slice(indexOfFirstPost, indexOfLastPost)
   //
   const [isEdit, setIsEdit] = React.useState(false)
-  const [relativeTitle, setrelativeTitle] = React.useState('')
-  const findIdEdit = (id) => {
-    setrelativeTitle(currentPosts.find((el) => el.id === id))
+  //id correct
+  const [relativeTitle, setrelativeTitle] = React.useState({ title, id })
+
+  const findIdEdit = (ids) => {
+    const correctId = currentPosts.find((el) => el.id === ids)
+    const { id, title } = correctId || []
+    setrelativeTitle({ title, id })
   }
   return (
     <div>
@@ -75,7 +79,7 @@ const Home = () => {
                     <Edit
                       updateValue={updateValue}
                       title={relativeTitle.title}
-                      i={i}
+                      i={relativeTitle.id}
                       setIsEdit={setIsEdit}
                     />
                   )}

@@ -3,6 +3,8 @@ import { useState } from 'react'
 const Edit = ({ setIsEdit, title, updateValue, i }) => {
   
   const [titleCorrect, setTitleCorrect] = useState(title)
+  console.log(titleCorrect);
+  
 
   // console.log(i)
   const sendTitle = () => {
