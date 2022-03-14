@@ -19,7 +19,6 @@ const Home = () => {
   const { addData, updateValue } = useAllActions()
 
   const [TitleSend, setTitleSend] = React.useState('')
-
   // pagin
   const [currentPage, setCurrentPage] = React.useState(1)
   const [postsPerPage] = React.useState(15)
@@ -28,11 +27,19 @@ const Home = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
   const currentPosts = allFile?.slice(indexOfFirstPost, indexOfLastPost)
   //
+  console.log('render');
+  
   const [isEdit, setIsEdit] = React.useState(false)
+  //findTitleID
+  const [relativeID, setrelativeID] = React.useState(0)
   const [relativeTitle, setrelativeTitle] = React.useState('')
-  const findIdEdit = (id) => {
-    setrelativeTitle(currentPosts.find((el) => el.id === id))
+
+  const findTitleID = ({ id, title }) => {
+    setrelativeID(id)
+    setrelativeTitle(title)
+    setIsEdit(!isEdit)
   }
+
   return (
     <div>
       todo
@@ -60,7 +67,7 @@ const Home = () => {
                 : 'blue list-outside md:list-inside justify-between flex'
             }
           >
-            {el.completed.toString()}-{i}-{el.title}
+            {'<<'}{el.completed.toString()}{'>>'}->{el.title}
             <div className='flex'>
               <div
                 className='pr-2 cursor-pointer'
@@ -69,17 +76,19 @@ const Home = () => {
                 toggle
               </div>
               <div className='pr-2 cursor-pointer'>
-                <div onClick={() => setIsEdit(!isEdit)}>edit</div>
-                <div onClick={() => findIdEdit(el.id)}>
-                  {isEdit && (
-                    <Edit
-                      updateValue={updateValue}
-                      title={relativeTitle.title}
-                      i={i}
-                      setIsEdit={setIsEdit}
-                    />
-                  )}
+                <div
+                  onClick={() => findTitleID({ id: el.id, title: el.title })}
+                >
+                  edit
                 </div>
+                {isEdit && (
+                  <Edit
+                    id={relativeID}
+                    title={relativeTitle}
+                    updateValue={updateValue}
+                    setIsEdit={setIsEdit}
+                  />
+                )}
               </div>
               <div
                 onClick={() => dispatch(removeElement(el.id))}
