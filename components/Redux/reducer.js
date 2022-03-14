@@ -3,7 +3,7 @@ import { CountryService } from '../../api/service/Country'
 
 export const fetchUserById = createAsyncThunk(
   'users/fetchByIdStatus',
-  async (_, { dispatch }) => {
+  async () => {
     const res = await CountryService.getAll()
     return res
   }
@@ -15,7 +15,7 @@ export const mySlice = createSlice({
   reducers: {
     updateValue(state, action) {
       const { i, title } = action.payload
-      state[i - 1].title = title 
+      state[i - 1].title = title
     },
     isCompleted: (state, { payload }) => {
       const index = payload

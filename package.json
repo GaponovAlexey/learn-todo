@@ -1,12 +1,15 @@
 {
   "name": "learn-todo",
+  "homepage": "https://kekelberi.github.io/learn-todo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
@@ -21,6 +24,7 @@
     "autoprefixer": "^10.4.2",
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
+    "gh-pages": "^3.2.3",
     "postcss": "^8.4.8",
     "tailwindcss": "^3.0.23"
   }

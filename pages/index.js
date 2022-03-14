@@ -3,12 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import Edit from '../components/Edit'
 import { useAllActions } from '../components/hooks/AllActions'
 import Pagination from '../components/Pagination'
-import { isCompleted, removeElement } from '../components/Redux/reducer'
+import {
+  fetchUserById,
+  isCompleted,
+  removeElement,
+} from '../components/Redux/reducer'
 
 const Home = () => {
-  const { addData, updateValue, fetchUserById } = useAllActions()
+  const { addData, updateValue } = useAllActions()
+  const dispatch = useDispatch()
   React.useEffect(() => {
-    fetchUserById()
+    dispatch(fetchUserById())
   }, [])
   const allFile = useSelector((state) => state.card)
 
@@ -61,7 +66,7 @@ const Home = () => {
           >
             {'<<'}
             {el.completed.toString()}
-            {'>>'}->{el.title}
+            {'>>'}-{el.title}
             <div className='flex'>
               <div
                 className='pr-2 cursor-pointer'
