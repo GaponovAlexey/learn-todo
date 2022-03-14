@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Edit from '../components/Edit'
 import { useAllActions } from '../components/hooks/AllActions'
@@ -75,11 +75,31 @@ const Home = () => {
               >
                 toggle
               </div>
+<<<<<<< HEAD
               <div className='pr-2 cursor-pointer'>
                 <div
                   onClick={() => findTitleID({ id: el.id, title: el.title })}
                 >
                   edit
+=======
+              <div
+                onClick={
+                  (() => setrelativeTitle({ title: el.title, id: el.id }),
+                  () => console.log('id:-', el.id))
+                }
+                className='pr-2 cursor-pointer'
+              >
+                <div onClick={() => setIsEdit(!isEdit)}>edit</div>
+                <div>
+                  {isEdit && (
+                    <Edit
+                      updateValue={updateValue}
+                      title={relativeTitle.title}
+                      id={relativeTitle.id}
+                      setIsEdit={setIsEdit}
+                    />
+                  )}
+>>>>>>> 2e30eb39245e9e6b732febfe8dee7d655eff9e75
                 </div>
                 {isEdit && (
                   <Edit
