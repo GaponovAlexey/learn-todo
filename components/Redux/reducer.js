@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { API_URL, CountryService } from '../../api/service/Country'
+import { CountryService } from '../../api/service/Country'
 
 export const fetchUserById = createAsyncThunk(
   'users/fetchByIdStatus',

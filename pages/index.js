@@ -3,20 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import Edit from '../components/Edit'
 import { useAllActions } from '../components/hooks/AllActions'
 import Pagination from '../components/Pagination'
-import {
-  fetchUserById,
-  isCompleted,
-  removeElement,
-} from '../components/Redux/reducer'
+import { isCompleted, removeElement } from '../components/Redux/reducer'
 
 const Home = () => {
-  const dispatch = useDispatch()
+  const { addData, updateValue, fetchUserById } = useAllActions()
   React.useEffect(() => {
-    dispatch(fetchUserById())
+    fetchUserById()
   }, [])
   const allFile = useSelector((state) => state.card)
-
-  const { addData, updateValue } = useAllActions()
 
   const [TitleSend, setTitleSend] = React.useState('')
   // pagin
@@ -26,12 +20,12 @@ const Home = () => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
   const currentPosts = allFile?.slice(indexOfFirstPost, indexOfLastPost)
-  //
+  //toggle
   const [isEdit, setIsEdit] = React.useState(false)
   //findTitleID
   const [relativeID, setrelativeID] = React.useState(0)
   const [relativeTitle, setrelativeTitle] = React.useState('')
-
+  //handlerUpdate
   const findTitleID = ({ id, title }) => {
     setrelativeID(id)
     setrelativeTitle(title)
@@ -65,7 +59,9 @@ const Home = () => {
                 : 'blue list-outside md:list-inside justify-between flex'
             }
           >
-            {'<<'}{el.completed.toString()}{'>>'}->{el.title}
+            {'<<'}
+            {el.completed.toString()}
+            {'>>'}->{el.title}
             <div className='flex'>
               <div
                 className='pr-2 cursor-pointer'
